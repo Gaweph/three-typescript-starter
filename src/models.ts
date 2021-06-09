@@ -1,7 +1,7 @@
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import * as THREE from 'three'
 
+// https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153
 const natureModelsTexture = './models/NaturePackLite_Texture.png';
 enum NatureModel {
     TREE1 = 'Tree_01.fbx',
@@ -49,9 +49,4 @@ function applyTexture(model: THREE.Group, texture: THREE.Texture) {
             mesh.material.needsUpdate = true;    
         }
     });            
-}
-
-export async function loadRocket() {
-    const model = (await new GLTFLoader().loadAsync("https://www.stivaliserna.com/assets/rocket/rocket.gltf")).scene;
-    return model;
 }

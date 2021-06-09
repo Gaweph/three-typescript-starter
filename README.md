@@ -3,6 +3,8 @@
 
 This project will quickly get you something working in [three.js](https://threejs.org/) and [typescript](https://www.typescriptlang.org/).
 
+
+![Demo Screenshot](/static/screenshot.png?raw=true)
 ## Getting Started
 
 ### Installing
