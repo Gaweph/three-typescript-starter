@@ -2,8 +2,11 @@ import * as THREE from 'three'
 
 class Lights {
 
+  public static addSkyBox() {
+
+  }
   // https://threejs.org/examples/?q=light#webgl_lights_hemisphere
-  public static addLightsToScene(scene: THREE.Scene) {
+  public static addLightsAndSkyBox(scene: THREE.Scene) {
 
     // AMBIENT LIGHT
     const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );

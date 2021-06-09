@@ -36,7 +36,7 @@ function setup() {
   window.addEventListener("resize", winowResized, false);
   
   // LIGHTS
-  Lights.addLightsToScene(scene);
+  Lights.addLightsAndSkyBox(scene);
 
   // GROUND
   const ground = new THREE.Mesh( new THREE.PlaneGeometry( 500, 500 ), new THREE.MeshLambertMaterial( { color: 0xc2b280 } ) );
