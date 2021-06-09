@@ -42,11 +42,8 @@ async function loadNatureModel(model: NatureModel) {
 function applyTexture(model: THREE.Group, texture: THREE.Texture) {
     model.traverse(function (mesh) {
         if (mesh instanceof THREE.Mesh) {
-            // apply texture
             mesh.material.map = texture;      
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
-            mesh.material.needsUpdate = true;    
+            mesh.castShadow = true; mesh.receiveShadow = true; mesh.material.needsUpdate = true;    
         }
     });            
 }
