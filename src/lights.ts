@@ -30,7 +30,6 @@ class Lights {
       "exponent": { value: 0.6 }
     };
     uniforms[ "topColor" ].value.copy( hemiLight.color );
-    scene.fog.color.copy( uniforms[ "bottomColor" ].value );
 
     const skyGeo = new THREE.SphereGeometry( 4000, 32, 15 );
     const skyMat = new THREE.ShaderMaterial({
@@ -42,6 +41,9 @@ class Lights {
     const sky = new THREE.Mesh( skyGeo, skyMat );
     scene.add( sky );
 
-    }
+    // scene.background = ;
+    scene.fog = new THREE.Fog( new THREE.Color().setHSL( 0.6, 0, 1 ), 1, 5000 );
+    scene.fog.color.copy( uniforms[ "bottomColor" ].value );
+  }
 }
 export default Lights;

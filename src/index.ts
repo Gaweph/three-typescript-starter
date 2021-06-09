@@ -8,24 +8,24 @@ let scene: THREE.Scene;
 let camera: THREE.PerspectiveCamera;
 let renderer: THREE.WebGLRenderer;
 
-// SHOW GRID, STATS ETC...
 const showDevTools = true;
+let clock = new THREE.Clock();
 
 async function setup() {
     
   let w = window.innerWidth;
   let h = window.innerHeight;
 
-  let aspectRatio = w/ h;  let fieldOfView = 75;  let near = 1;  let far = 5000;
+  let aspectRatio = w / h;  let fieldOfView = 75;
+
+  // CAMERA
+  camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, 1, 5000 );
+  camera.position.set(-6, 5.5, 10);  
+
+  tools.AddControlsForObject(camera, "camera", -10,10);
 
   // SCENE  
   scene = new THREE.Scene();
-  scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
-  scene.fog = new THREE.Fog( scene.background, near, far );
-
-  // CAMERA
-  camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, near, far );
-  camera.position.set(-6, 5.5, 10);
   
   // RENDERER
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -34,7 +34,7 @@ async function setup() {
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.shadowMap.enabled = true;
 
-  // ORBITALCAMERA - ALLOWS USER TO NAVIGATE SCENE WITH MOUSE
+  // ORBITALCAMERA
   new OrbitControls (camera, renderer.domElement);   
   camera.lookAt(0, 0, 0);
 
@@ -44,7 +44,7 @@ async function setup() {
   window.addEventListener("resize", winowResized, false);
   
   // LIGHTS
-  await Lights.addLightsToScene(scene);
+  Lights.addLightsToScene(scene);
 
   // GROUND
   const groundGeo = new THREE.PlaneGeometry( 500, 500 );
@@ -58,6 +58,12 @@ async function setup() {
   let tree = await loadTree();
   scene.add(tree);
 
+  // DEV TOOLS 
+  if(showDevTools) {
+    tools
+      .addGrid(scene)
+      .addStats();
+  }
 };
 
 function winowResized() {
@@ -68,7 +74,6 @@ function winowResized() {
   camera.updateProjectionMatrix();
 }
 
-let clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   let deltaTime = clock.getDelta();
@@ -80,10 +85,3 @@ function animate() {
 }
 setup();
 animate();
-
-// DEV TOOLS
-if(showDevTools) {
-  tools
-    .addGrid(scene)
-    .addStats();
-}

@@ -5,31 +5,49 @@ export const nameof = <T>(name: keyof T) => name;
 
 class DevTools {
 
+    public gui: GUI;
+    private _grid: THREE.GridHelper;
+    private _stats: Stats;
+    constructor() {
+        this.gui = new GUI();
+    }
+
+    public hideDevTools(scene: THREE.Scene) {
+        (<HTMLElement>document.getElementsByClassName("dg main a")[0]).style.visibility = "hidden";
+        this._stats.dom.style.visibility = "hidden";
+        scene.remove(this._grid);
+    }
+
+    
+    public showDevTools(scene: THREE.Scene) {
+
+        if(this._grid == null)
+        {
+            this.addGrid(scene);
+        }
+        if(this._stats == null)
+        {
+            this.addStats();
+        }
+        (<HTMLElement>document.getElementsByClassName("dg main a")[0]).style.visibility = "visible";
+        this._stats.dom.style.visibility = "visible";
+        scene.add(this._grid);
+    }
+
     public addGrid(scene: THREE.Scene) {
         // DRAW THE GRID
-        var grid = new THREE.GridHelper(1000, 1000, new THREE.Color(0xff0000), new THREE.Color(0xffffff));
-        scene.add(grid);  
-        
+        this._grid = new THREE.GridHelper(1000, 1000, new THREE.Color(0xff0000), new THREE.Color(0xffffff));
+        scene.add(this._grid);          
         return this;
     }
 
     public addStats() {
         // ADD STATS - FPS, MEMORY USAGE ETC...
-        let stats = Stats();
-        document.body.appendChild(stats.dom);
-        const updateStats = () => { stats.update(); requestAnimationFrame(updateStats); };
+        this._stats = Stats();
+        document.body.appendChild(this._stats.dom);
+        const updateStats = () => { this._stats.update(); requestAnimationFrame(updateStats); };
         requestAnimationFrame(updateStats);
-
         return this;
-    }
-
-    private _gui: GUI = null;
-    public get gui() {
-        if(this._gui == null) {
-            // ADD INTERACTIVE DAT.GUI
-            this._gui = new GUI();    
-        }
-        return this._gui;
     }
 
     public AddControlsForObject(model: THREE.Object3D, label: string, min: number, max:number) {
