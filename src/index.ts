@@ -58,12 +58,16 @@ async function setup() {
   let tree = await loadTree();
   scene.add(tree);
 
-  // DEV TOOLS 
-  if(showDevTools) {
-    tools
-      .addGrid(scene)
-      .addStats();
-  }
+  
+  // DEV TOOLS BUTTONS
+  document.getElementById("btnShowTools").addEventListener( 'click', function () {
+    tools.showGrid(scene); tools.showStats(); tools.showDatGui();
+  });
+
+  document.getElementById("btnHideTools").addEventListener( 'click', function () {
+    tools.hideGrid(scene); tools.hideStats(); tools.hideDatGui();
+  });
+
 };
 
 function winowResized() {

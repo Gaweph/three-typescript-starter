@@ -10,44 +10,47 @@ class DevTools {
     private _stats: Stats;
     constructor() {
         this.gui = new GUI();
-    }
-
-    public hideDevTools(scene: THREE.Scene) {
         (<HTMLElement>document.getElementsByClassName("dg main a")[0]).style.visibility = "hidden";
-        this._stats.dom.style.visibility = "hidden";
-        scene.remove(this._grid);
     }
 
-    
-    public showDevTools(scene: THREE.Scene) {
-
+    public showGrid(scene: THREE.Scene) {
         if(this._grid == null)
         {
-            this.addGrid(scene);
+            this._grid = new THREE.GridHelper(1000, 1000, new THREE.Color(0xff0000), new THREE.Color(0xffffff));    
         }
+        scene.add(this._grid); 
+    }
+    public hideGrid(scene: THREE.Scene) {
+        scene.remove(this._grid);
+    }
+    
+    public showStats() {
         if(this._stats == null)
         {
-            this.addStats();
+            this._stats = Stats();
+            document.body.appendChild(this._stats.dom);
+            const updateStats = () => { this._stats.update(); requestAnimationFrame(updateStats); };
+            requestAnimationFrame(updateStats);
         }
-        (<HTMLElement>document.getElementsByClassName("dg main a")[0]).style.visibility = "visible";
         this._stats.dom.style.visibility = "visible";
-        scene.add(this._grid);
+    }    
+    public hideStats() {
+        if(this._stats != null)
+        {
+            this._stats.dom.style.visibility = "hidden";
+        }
     }
-
-    public addGrid(scene: THREE.Scene) {
-        // DRAW THE GRID
-        this._grid = new THREE.GridHelper(1000, 1000, new THREE.Color(0xff0000), new THREE.Color(0xffffff));
-        scene.add(this._grid);          
-        return this;
-    }
-
-    public addStats() {
-        // ADD STATS - FPS, MEMORY USAGE ETC...
-        this._stats = Stats();
-        document.body.appendChild(this._stats.dom);
-        const updateStats = () => { this._stats.update(); requestAnimationFrame(updateStats); };
-        requestAnimationFrame(updateStats);
-        return this;
+    public showDatGui() {
+        const elements = document.getElementsByClassName("dg main a");
+        if(elements.length > 0) {
+            (<HTMLElement>elements[0]).style.visibility = "visible";
+        }
+    }    
+    public hideDatGui() {
+        const elements = document.getElementsByClassName("dg main a");
+        if(elements.length > 0) {
+            (<HTMLElement>elements[0]).style.visibility = "hidden";
+        }
     }
 
     public AddControlsForObject(model: THREE.Object3D, label: string, min: number, max:number) {

@@ -2,6 +2,7 @@
   <head>
     <title>Three-Typescript-Starter</title>
     <meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
     <style>
       html,
@@ -12,6 +13,7 @@
         color: #fff;
         overflow: hidden;
         perspective: 10rem;
+	      overscroll-behavior: none;
       }
 
       #canvas {
@@ -20,11 +22,30 @@
         height: 100%;
         overflow: hidden;
       }
+      button {
+        cursor: pointer;
+        text-transform: uppercase;
+      }
+
+      #info {
+        position: absolute;
+        top: 0px;
+        z-index: 265;
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        color: #000;
+      }
     </style>
   </head>
 
   <body>
     <div id="canvas"></div>
+
+    <div id="info">
+			<button id="btnShowTools">Show Tools</button>
+			<button id="btnHideTools">Hide Tools</button>
+		</div>
 
     <!-- USED BY SKYDOME -->
     <script type="x-shader/x-vertex" id="vertexShader">
