@@ -4,12 +4,6 @@ import * as THREE from 'three'
 export const nameof = <T>(name: keyof T) => name;
 
 class DevTools {
-    public gui: GUI;
-
-    constructor() {
-        // ADD INTERACTIVE DAT.GUI
-        this.gui = new GUI();        
-    }
 
     public addGrid(scene: THREE.Scene) {
         // DRAW THE GRID
@@ -27,6 +21,15 @@ class DevTools {
         requestAnimationFrame(updateStats);
 
         return this;
+    }
+
+    private _gui: GUI = null;
+    public get gui() {
+        if(this._gui == null) {
+            // ADD INTERACTIVE DAT.GUI
+            this._gui = new GUI();    
+        }
+        return this._gui;
     }
 
     public AddControlsForObject(model: THREE.Object3D, label: string, min: number, max:number) {

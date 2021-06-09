@@ -26,7 +26,7 @@ async function setup() {
   // CAMERA
   camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, near, far );
   camera.position.set(-6, 5.5, 10);
-
+  
   // RENDERER
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio( window.devicePixelRatio );
