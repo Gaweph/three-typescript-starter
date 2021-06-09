@@ -31,11 +31,14 @@ import { tools } from './devTools';
 // Add GUI controls for position and rotation of an object
 tools.AddControlsForObject(model, "rocket", -10, 10)
 
-// Add the grid
+// Add/Remove the grid
 tools.addGrid(scene);
 
 // Add Stats Panel
 tools.addStats();
+
+// Access the dat.gui
+tools.gui.add(model.position, "x", -10,10);
 
 ```
 ## Copyright and License
