@@ -1,15 +1,15 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { loadNatureModel, NatureModel } from './models';
+import { loadTree } from './models';
 import Lights from './lights';
 import { tools } from './devTools';
-import { PlaneGeometry } from 'three';
 
 let scene: THREE.Scene;
 let camera: THREE.PerspectiveCamera;
 let renderer: THREE.WebGLRenderer;
 
-let params = { showDevTools: true};
+// SHOW GRID, STATS ETC...
+const showDevTools = true;
 
 async function setup() {
     
@@ -26,11 +26,9 @@ async function setup() {
   // CAMERA
   camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, near, far );
   camera.position.set(-6, 5.5, 10);
-  tools.AddModelControls(camera, "camera", -50, 50);
 
   // RENDERER
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  // renderer = new THREE.WebGLRenderer( { antialias: true } );
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize(w, h);
   renderer.outputEncoding = THREE.sRGBEncoding;
@@ -38,52 +36,27 @@ async function setup() {
 
   // ORBITALCAMERA - ALLOWS USER TO NAVIGATE SCENE WITH MOUSE
   new OrbitControls (camera, renderer.domElement);   
-  // ADDD TO CANVAS
+  camera.lookAt(0, 0, 0);
+
+  // CANVAS
   let container = document.getElementById("canvas");
   container.appendChild(renderer.domElement);
   window.addEventListener("resize", winowResized, false);
   
   // LIGHTS
   await Lights.addLightsToScene(scene);
-  
 
-				// GROUND
-
-				const groundGeo = new THREE.PlaneGeometry( 500, 500 );
-				const groundMat = new THREE.MeshLambertMaterial( { color: 0xffffff } );
-				groundMat.color.setHSL( 0.095, 1, 0.75 );
-
-				const ground = new THREE.Mesh( groundGeo, groundMat );
-				//ground.position.y = - 33;
-				ground.rotation.set(-Math.PI/2,0,0);
-				ground.receiveShadow = true;
-				scene.add( ground );
   // GROUND
-  // const floorWidth = 1000;
-  // const texture = await new THREE.TextureLoader().loadAsync('./models/prototype_texture.png');
-  // texture.wrapT = THREE.RepeatWrapping;  texture.wrapS = THREE.RepeatWrapping;
-  // texture.repeat.set( floorWidth, floorWidth);  
-  // var ground = new THREE.Mesh(
-  //   new THREE.PlaneGeometry(floorWidth, floorWidth, 8,8), 
-  //   new THREE.MeshBasicMaterial( { map: texture, } )
-  // );  
-  // ground.rotation.set(-Math.PI/2,0,0);
-  // scene.add(ground);
-
+  const groundGeo = new THREE.PlaneGeometry( 500, 500 );
+  const groundMat = new THREE.MeshLambertMaterial( { color: 0xc2b280 } );
+  const ground = new THREE.Mesh( groundGeo, groundMat );
+  ground.rotation.x = -Math.PI/2;
+  ground.receiveShadow = true;
+  scene.add( ground );
 
   // MODELS
-  let tree = await loadNatureModel(NatureModel.TREE3);
-  let rock1 = await loadNatureModel(NatureModel.ROCK4);
-  let rock2 = await loadNatureModel(NatureModel.ROCK1);
-  
-  tree.position.set(0, 0, 0);
-  rock1.position.set(-1, 0, -1);
-  rock2.position.set(-2, 0.2, -2);
-
+  let tree = await loadTree();
   scene.add(tree);
-  scene.add(rock1);
-  scene.add(rock2);
-
 
 };
 
@@ -96,20 +69,21 @@ function winowResized() {
 }
 
 let clock = new THREE.Clock();
-function update() {
-  requestAnimationFrame(update);
+function animate() {
+  requestAnimationFrame(animate);
   let deltaTime = clock.getDelta();
 
+  // LOGIC HERE
+  // ...
+
   renderer.render(scene, camera);
-
 }
-
 setup();
-update();
+animate();
 
 // DEV TOOLS
-if(params.showDevTools) {
+if(showDevTools) {
   tools
-    // .addGrid(scene)
+    .addGrid(scene)
     .addStats();
 }

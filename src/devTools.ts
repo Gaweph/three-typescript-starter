@@ -29,7 +29,7 @@ class DevTools {
         return this;
     }
 
-    public AddModelControls(model: THREE.Object3D, label: string, min: number, max:number) {
+    public AddControlsForObject(model: THREE.Object3D, label: string, min: number, max:number) {
         this.gui.add(model.position, nameof<THREE.Vector3>("x"), min, max).name(`${label} - pos - x`).listen();
         this.gui.add(model.position, nameof<THREE.Vector3>("y"), min, max).name(`${label} - pos - y`).listen();
         this.gui.add(model.position, nameof<THREE.Vector3>("z"), min, max).name(`${label} - pos - z`).listen();
