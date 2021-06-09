@@ -29,10 +29,13 @@ class DevTools {
         return this;
     }
 
-    public AddModelControls(model: THREE.Group, label: string, min: number, max:number) {
-        this.gui.add(model.position, nameof<THREE.Vector3>("x"), min, max).name(`${label} - x`);
-        this.gui.add(model.position, nameof<THREE.Vector3>("y"), min, max).name(`${label} - y`);
-        this.gui.add(model.position, nameof<THREE.Vector3>("z"), min, max).name(`${label} - z`);
+    public AddModelControls(model: THREE.Object3D, label: string, min: number, max:number) {
+        this.gui.add(model.position, nameof<THREE.Vector3>("x"), min, max).name(`${label} - pos - x`).listen();
+        this.gui.add(model.position, nameof<THREE.Vector3>("y"), min, max).name(`${label} - pos - y`).listen();
+        this.gui.add(model.position, nameof<THREE.Vector3>("z"), min, max).name(`${label} - pos - z`).listen();
+        this.gui.add(model.rotation, nameof<THREE.Vector3>("x"), min, max).name(`${label} - rot - x`).listen();
+        this.gui.add(model.rotation, nameof<THREE.Vector3>("y"), min, max).name(`${label} - rot - y`).listen();
+        this.gui.add(model.rotation, nameof<THREE.Vector3>("z"), min, max).name(`${label} - rot - z`).listen();
     }
 }
 export const tools = new DevTools();

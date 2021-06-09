@@ -23,11 +23,13 @@ export async function loadNatureModel(model: NatureModel) {
 }
 
 function applyTexture(model: THREE.Group, texture: THREE.Texture) {
-    model.traverse(function (child) {
-        if (child instanceof THREE.Mesh) {
+    model.traverse(function (mesh) {
+        if (mesh instanceof THREE.Mesh) {
             // apply texture
-            child.material.map = texture
-            child.material.needsUpdate = true;
+            mesh.material.map = texture;      
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            mesh.material.needsUpdate = true;    
         }
     });            
 }
