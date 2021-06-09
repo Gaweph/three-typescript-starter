@@ -25,13 +25,21 @@ A local version will now be running on [localhost:1234](http://localhost:1234).
 
 ### DevTools
 
+By default this template enabled the dev tools.
+
+```typescript
+const showDevTools = false; // <-- to disable - change this to false
+```
+
+You may also use any subset of the DevTools manually with the following helpers:
+
 ```typescript
 import { tools } from './devTools';
 
 // Add GUI controls for position and rotation of an object
 tools.AddControlsForObject(model, "rocket", -10, 10)
 
-// Add/Remove the grid
+// Add grid
 tools.addGrid(scene);
 
 // Add Stats Panel
