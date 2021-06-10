@@ -5,12 +5,8 @@ import * as THREE from 'three'
 const natureModelsTexture = './models/NaturePackLite_Texture.png';
 
 enum NatureModel {
-    TREE1 = 'Tree_01.fbx',
-    TREE2 = 'Tree_02.fbx',
     TREE3 = 'Tree_03.fbx',
     ROCK1 = 'Rock_01.fbx',
-    ROCK2 = 'Rock_02.fbx',
-    ROCK3 = 'Rock_03.fbx',
     ROCK4 = 'Rock_04.fbx'
 }
 
