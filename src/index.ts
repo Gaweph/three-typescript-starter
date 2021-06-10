@@ -52,7 +52,6 @@ let tree = getTree();
 scene.add(tree);
 addDatGuiForObject(gui, tree, "Tree");
 
-
 function windowResized() {
   var w = window.innerWidth;
   var h = window.innerHeight;

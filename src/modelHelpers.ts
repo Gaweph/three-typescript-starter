@@ -3,6 +3,7 @@ import * as THREE from 'three'
 
 // https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153
 const natureModelsTexture = './models/NaturePackLite_Texture.png';
+
 enum NatureModel {
     TREE1 = 'Tree_01.fbx',
     TREE2 = 'Tree_02.fbx',
@@ -40,15 +41,26 @@ async function loadNatureModel(model: NatureModel) {
     const fileName = `./models/${model}`;
     const res = (await new FBXLoader().loadAsync(fileName)); 
     const texture = await (new THREE.TextureLoader().loadAsync(natureModelsTexture))
-    applyTexture(res, texture);
+    applyGroupTexture(res, texture);
     return res;
 }
 
-function applyTexture(model: THREE.Group, texture: THREE.Texture) {
+function applyGroupTexture(model: THREE.Group, texture: THREE.Texture) {
     model.traverse(function (mesh) {
         if (mesh instanceof THREE.Mesh) {
+            applyMeshTexture(mesh, texture);
+        }
+    });            
+}
+
+
+function applyMeshTexture(mesh: THREE.Mesh, texture: THREE.Texture) {
+    mesh.traverse(function (mesh) {
+        if (mesh instanceof THREE.Mesh) {
             mesh.material.map = texture;      
-            mesh.castShadow = true; mesh.receiveShadow = true; mesh.material.needsUpdate = true;    
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            mesh.material.needsUpdate = true;    
         }
     });            
 }
