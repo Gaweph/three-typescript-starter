@@ -1,5 +1,5 @@
 
-# THREEJS TypeScript Starter
+# Threejs TypeScript Starter
 
 This project will quickly get you something working in [three.js](https://threejs.org/) and [typescript](https://www.typescriptlang.org/).
 
@@ -27,11 +27,15 @@ A local version will now be running on [localhost:1234](http://localhost:1234).
 
 ### Helpers
 
-This template provides some paterns, such as `modelHelpers` and `lightsHelper`.  It also provides some useful `tools`:
+This template provides some paterns, such as `modelHelpers` and `lightsHelper`.  It also provides some useful tools:
 
 ```typescript
+
+import { addDatGuiForObject } from './tools';
+
 // Add controls for Position, Rotation and visibility of an Object
 addDatGuiForObject(model, "label");
+
 ```
 
 ## Copyright and License
