@@ -22,9 +22,16 @@
         height: 100%;
         overflow: hidden;
       }
-      button {
+      .control {
+        display: inline;
         cursor: pointer;
-        text-transform: uppercase;
+        /* text-transform: uppercase; */
+        padding: 10px;
+      }
+
+      .control input {
+        width: 20px;
+        height: 20px;
       }
 
       #info {
@@ -48,8 +55,14 @@
     <div id="canvas"></div>
 
     <div id="info">
-			<button id="btnShowTools">Show Tools</button>
-			<button id="btnHideTools">Hide Tools</button>
+      <div class="control">
+        <input type="checkbox" id="toggleGrid" checked> 
+        <label for="toggleGrid">Toggle Grid</label>
+      </div>
+      <div class="control">
+        <input type="checkbox" id="toggleStats" checked>
+        <label for="toggleStats">Toggle Stats</label>        
+      </div>
 		</div>
 
     <!-- USED BY SKYDOME -->

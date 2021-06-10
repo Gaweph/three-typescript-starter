@@ -13,20 +13,25 @@ enum NatureModel {
     ROCK4 = 'Rock_04.fbx'
 }
 
-export async function loadTree() {
+export function getTree() {
 
     const group = new THREE.Group();
-    const tree = await loadNatureModel(NatureModel.TREE3); 
-    tree.position.set(0, 0, 0);
-    group.add(tree);
 
-    const rock1 = await loadNatureModel(NatureModel.ROCK4);
-    rock1.position.set(-1, 0, -1);
-    group.add(rock1);
-
-    const rock2 = await loadNatureModel(NatureModel.ROCK1);
-    rock2.position.set(-2, 0.2, -2);
-    group.add(rock2);    
+    // LOAD MODELS ASYNCRONOUSLY AND ADD TO GROUP ONCE LOADED
+    loadNatureModel(NatureModel.TREE3).then((tree) => {
+        tree.position.set(0, 0, 0);
+        group.add(tree);
+    });
+    
+    loadNatureModel(NatureModel.ROCK4).then((rock) => {
+        rock.position.set(-1, 0, -1);
+        group.add(rock);
+    });
+    
+    loadNatureModel(NatureModel.ROCK1).then((rock) => {
+        rock.position.set(-2, 0.2, -2);
+        group.add(rock);
+    });
     
     return group;
 }

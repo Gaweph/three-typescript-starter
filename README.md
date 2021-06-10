@@ -25,27 +25,15 @@ npm start
 
 A local version will now be running on [localhost:1234](http://localhost:1234).
 
-### DevTools
+### Helpers
 
-This template provides access to some helpful DevTool methods:
+This template provides some paterns, such as `modelHelpers` and `lightsHelper`.  It also provides some useful `tools`:
 
 ```typescript
-import { tools } from './devTools';
-
-// Grid
-tools.showGrid(scene);
-
-// Stats Panel
-tools.showStats();
-
-// Access the dat.gui
-tools.showDatGui();
-tools.gui.add(model.position, "x", -10,10);
-
-// Add GUI controls for position and rotation of an object
-tools.AddControlsForObject(model, "rocket", -10, 10)
-
+// Add controls for Position, Rotation and visibility of an Object
+addDatGuiForObject(model, "label");
 ```
+
 ## Copyright and License
 
 MIT License, see [LICENSE](LICENSE) for details.

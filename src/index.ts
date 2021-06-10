@@ -1,50 +1,59 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { loadTree } from './models';
-import Lights from './lights';
-import { tools } from './devTools';
+import Stats from 'three/examples/jsm/libs/stats.module';
+import { getTree } from './modelHelpers';
+import { addLightsAndSkyBox, addSkyBox } from './lightsHelper';
+import { GUI } from 'dat.gui';
+import { addDatGuiForObject } from './tools';
 
-let scene: THREE.Scene;
-let camera: THREE.PerspectiveCamera;
-let renderer: THREE.WebGLRenderer;
-let clock = new THREE.Clock();
+const w = window.innerWidth;
+const h = window.innerHeight;
+const aspectRatio = w / h;  const fieldOfView = 75;
+const container = document.getElementById("canvas");
 
-function setup() {
-    
-  const w = window.innerWidth; const h = window.innerHeight;
+// DEV
+const gui = new GUI();
+const stats = Stats(); document.body.appendChild(stats.dom);
+const grid = new THREE.GridHelper(1000, 1000, new THREE.Color(0xff0000), new THREE.Color(0x4C704C));   
 
-  // SCENE  
-  scene = new THREE.Scene();
-  
-  // RENDERER
-  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setPixelRatio( window.devicePixelRatio );
-  renderer.setSize(w, h);
-  renderer.outputEncoding = THREE.sRGBEncoding;
-  renderer.shadowMap.enabled = true;
+// SCENE  
+const scene = new THREE.Scene();
+scene.add(grid); 
 
-  // CAMERA
-  const aspectRatio = w / h;  const fieldOfView = 75;
-  camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, 1, 5000 );
-  camera.position.set(-6, 5.5, 10);  
-  new OrbitControls (camera, renderer.domElement);   
-  camera.lookAt(0, 0, 0);
+// RENDERER
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setPixelRatio( window.devicePixelRatio );
+renderer.setSize(w, h);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.shadowMap.enabled = true;
 
-  // CANVAS
-  let container = document.getElementById("canvas");
-  container.appendChild(renderer.domElement);
-  window.addEventListener("resize", winowResized, false);
-  
-  // LIGHTS
-  Lights.addLightsAndSkyBox(scene);
+// CAMERA
+const camera = new THREE.PerspectiveCamera( fieldOfView, aspectRatio, 1, 5000 );
+camera.position.set(-6, 5.5, 10);  
+const controls = new OrbitControls (camera, renderer.domElement);   
+camera.lookAt(0, 0, 0);
 
-  // GROUND
-  const ground = new THREE.Mesh( new THREE.PlaneGeometry( 500, 500 ), new THREE.MeshLambertMaterial( { color: 0xc2b280 } ) );
-  ground.rotation.x = -Math.PI/2; ground.receiveShadow = true;
-  scene.add( ground );
-};
+// CANVAS
+container.appendChild(renderer.domElement);
+window.addEventListener("resize", windowResized, false);
 
-function winowResized() {
+// LIGHTS & SKYBOX
+addLightsAndSkyBox(scene);
+addSkyBox(scene);
+
+// GROUND
+const ground = new THREE.Mesh( new THREE.PlaneGeometry( 500, 500 ), new THREE.MeshLambertMaterial( { color: 0xc2b280 } ) );
+ground.rotation.x = -Math.PI/2;
+ground.receiveShadow = true;
+scene.add( ground );
+
+// MODELS
+let tree = getTree();
+scene.add(tree);
+addDatGuiForObject(gui, tree, "Tree");
+
+
+function windowResized() {
   var w = window.innerWidth;
   var h = window.innerHeight;
   renderer.setSize(w, h);
@@ -52,32 +61,24 @@ function winowResized() {
   camera.updateProjectionMatrix();
 }
 
-async function init() {
-  let tree = await loadTree();
-  scene.add(tree);
-  tools.AddControlsForObject(tree, "tree", -10,10);
-}
-
+const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   let deltaTime = clock.getDelta();
-  renderer.render(scene, camera);
+
+  // ...
+
+  renderer.render(scene, camera);  
+  stats.update()
 }
 
-setup();
-init();
 animate();
 
-
-// DEV TOOLS TOGGLES
-document.getElementById("btnShowTools").addEventListener( 'click', function () {
-  tools.showGrid(scene);
-  tools.showStats();
-  tools.showDatGui();
+// DEV CHECKBOXES
+document.getElementById("toggleGrid").addEventListener( 'change', function () {
+  (<HTMLInputElement>this).checked ? scene.add(grid) : scene.remove(grid);
 });
 
-document.getElementById("btnHideTools").addEventListener( 'click', function () {
-  tools.hideGrid(scene);
-  tools.hideStats();
-  tools.hideDatGui();
+document.getElementById("toggleStats").addEventListener( 'change', function () {
+  stats.dom.style.visibility = (<HTMLInputElement>this).checked ? "visible" : "hidden";
 });
