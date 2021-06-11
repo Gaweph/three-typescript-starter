@@ -29,6 +29,25 @@ A local version will now be running on [localhost:1234](http://localhost:1234).
 
 This template provides some patterns such as the `modelHelpers` and `lightsHelper` files.
 
+```typescript
+
+import { getTree } from './modelHelpers';
+import { getLights, getSkyBox } from './lightsHelper';
+
+// ADD LIGHTS TO SCENE
+const lights = getLights();
+scene.add(lights);
+
+// ADD SKYBOX TO SCENE
+const skyBox = getSkyBox();
+scene.add(skyBox);
+
+// LOAD MODEL AND ADD TO SCENE
+const tree = getTree();
+scene.add(tree);
+
+```
+
 It also provides some useful tools:
 
 ```typescript
