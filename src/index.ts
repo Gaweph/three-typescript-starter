@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module';
-import { getTree } from './modelHelpers';
+import { getTree, getGrassPlane } from './modelHelpers';
 import { getLights, getSkyBox } from './lightsHelper';
 import { GUI } from 'dat.gui';
 import { addDatGuiForObject } from './tools';
@@ -51,9 +51,15 @@ ground.receiveShadow = true;
 scene.add( ground );
 
 // MODELS
-let tree = getTree();
+const tree = getTree();
 scene.add(tree);
 addDatGuiForObject(gui, tree, "Tree");
+
+
+const grass = getGrassPlane(5, 5);
+grass.position.x = 0;
+grass.position.z = 0;
+scene.add(grass);
 
 function windowResized() {
   var w = window.innerWidth;
