@@ -10,10 +10,6 @@ const uniforms = {
 // https://threejs.org/examples/?q=light#webgl_lights_hemisphere
 export function getSkyBox() {
     
-  // SKYDOME
-  const vertexShader = document.getElementById( 'vertexShader' ).textContent;
-  const fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
-
   const skyGeo = new THREE.SphereGeometry( 4000, 32, 15 );
   const skyMat = new THREE.ShaderMaterial({
     uniforms: uniforms,
@@ -45,3 +41,24 @@ export function getLights() {
             
   return group;
 }
+
+  // SKYDOME SHADERS
+  const vertexShader = `
+varying vec3 vWorldPosition;
+  void main() {
+    vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+    vWorldPosition = worldPosition.xyz;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+  }
+`;
+  const fragmentShader = `
+  uniform vec3 topColor;
+  uniform vec3 bottomColor;
+  uniform float offset;
+  uniform float exponent;
+  varying vec3 vWorldPosition;
+  void main() {
+    float h = normalize( vWorldPosition + offset ).y;
+    gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
+  }  
+`;
