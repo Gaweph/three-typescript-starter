@@ -2,19 +2,20 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module';
 import { getTree } from './modelHelpers';
-import { addLightsAndSkyBox, addSkyBox } from './lightsHelper';
+import { getLights, getSkyBox } from './lightsHelper';
 import { GUI } from 'dat.gui';
 import { addDatGuiForObject } from './tools';
 
 const w = window.innerWidth;
 const h = window.innerHeight;
-const aspectRatio = w / h;  const fieldOfView = 75;
 const container = document.getElementById("canvas");
+const aspectRatio = w / h;  const fieldOfView = 75;
+const groundSize = new THREE.Vector2(20,20);
 
 // DEV
 const gui = new GUI();
 const stats = Stats(); document.body.appendChild(stats.dom);
-const grid = new THREE.GridHelper(1000, 1000, new THREE.Color(0xff0000), new THREE.Color(0x4C704C));   
+const grid = new THREE.GridHelper(groundSize.x, groundSize.y, new THREE.Color(0xff0000), new THREE.Color(0x4C704C));   
 
 // SCENE  
 const scene = new THREE.Scene();
@@ -37,12 +38,14 @@ camera.lookAt(0, 0, 0);
 container.appendChild(renderer.domElement);
 window.addEventListener("resize", windowResized, false);
 
-// LIGHTS & SKYBOX
-addLightsAndSkyBox(scene);
-addSkyBox(scene);
+// SKYBOX AND LIGHTING
+const lights = getLights();
+scene.add(lights);
+const skyBox = getSkyBox();
+scene.add(skyBox);
 
 // GROUND
-const ground = new THREE.Mesh( new THREE.PlaneGeometry( 500, 500 ), new THREE.MeshLambertMaterial( { color: 0xc2b280 } ) );
+const ground = new THREE.Mesh( new THREE.PlaneGeometry( groundSize.x, groundSize.y ), new THREE.MeshLambertMaterial( { color: 0x98c280 } ) );
 ground.rotation.x = -Math.PI/2;
 ground.receiveShadow = true;
 scene.add( ground );
