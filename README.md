@@ -25,9 +25,11 @@ npm start
 
 A local version will now be running on [localhost:1234](http://localhost:1234).
 
-### Helpers
+## Helpers & Tools
 
-This template provides some paterns, such as `modelHelpers` and `lightsHelper`.  It also provides some useful tools:
+This template provides some patterns such as the `modelHelpers` and `lightsHelper` files.
+
+It also provides some useful tools:
 
 ```typescript
 
@@ -37,6 +39,12 @@ import { addDatGuiForObject } from './tools';
 addDatGuiForObject(model, "label");
 
 ```
+
+## Credits
+
+Models used in this example are from the [Low-Poly Simple Nature Pack](https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153) provided by [JustCreate](https://assetstore.unity.com/publishers/44390)
+
+Lighting and SkyBox stolen from the [threejs - webgl hemisphere light example](https://threejs.org/examples/?q=light#webgl_lights_hemisphere) 
 
 ## Copyright and License
 
